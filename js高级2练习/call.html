@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function fn(sex, age) {
+      console.log('刘憨憨今天三岁啦');
+      console.log(this);
+      this.sex = sex
+      this.age = age
+
+    }
+    var L = {
+      name: '刘憨憨'
+    }
+    //改变this的指向
+    fn.call(L, '男', 3)
+  </script>
+</body>
+
+</html>

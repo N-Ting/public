@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function Fn(uname, age) {
+      this.uname = uname
+      this.age = age
+      // this.sing = function () {
+      //   console.log('我会挨打');
+      // }
+      Fn.prototype.sing = function () {
+        console.log('我会挨打');
+      }
+
+    }
+    var lhh = new Fn('刘憨憨', 18)
+    var sun = new Fn('小孙', 18)
+    console.log(lhh.sing === sun.sing);
+    // console.dir(Fn);
+    lhh.sing()
+    sun.sing()
+    //一般情况下，我们的公共属性定义到构造函数里面，公共的方法我们放到原型对象身上
+    console.log(lhh);//对象身上系统自己添加一个__proto__指向我们构造函数的原型对象
+  </script>
+</body>
+
+</html>
