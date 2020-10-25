@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./lib/bootstrap.css" />
+  <script src="./lib/jquery.js"></script>
+</head>
+
+<body style="padding: 15px;">
+  <!-- 添加图书的Panel面板 -->
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">添加新图书</h3>
+    </div>
+    <div class="panel-body form-inline">
+
+      <div class="input-group">
+        <div class="input-group-addon">书名</div>
+        <input type="text" class="form-control" id="iptBookname" placeholder="请输入书名">
+      </div>
+
+      <div class="input-group">
+        <div class="input-group-addon">作者</div>
+        <input type="text" class="form-control" id="iptAuthor" placeholder="请输入作者">
+      </div>
+
+      <div class="input-group">
+        <div class="input-group-addon">出版社</div>
+        <input type="text" class="form-control" id="iptPublisher" placeholder="请输入出版社">
+      </div>
+
+      <button id="btnAdd" class="btn btn-primary">添加</button>
+
+    </div>
+  </div>
+
+
+  <!-- 图书的表格 -->
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>书名</th>
+        <th>作者</th>
+        <th>出版社</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody id="tb"></tbody>
+  </table>
+
+  <script>
+    $(function () {
+      getBookList();
+      function getBookList() {
+        //发送get请求，获取所有的图书列表
+        $.get('http://www.liulongbin.top:3006/api/getbooks', function (res) {
+          // console.log(res);
+          let rows = []
+          //渲染页面
+          //判断状态码是否为200，如果不是直接终止
+          if (res.status !== 200) return alert("获取数据失败")
+          res.data.forEach(item => {
+            rows.push(`<tr>
+            <td>${item.id}</td>
+            <td>${item.bookname}</td>
+            <td>${item.author}</td>
+            <td>${item.publisher}</td>
+            <td><a href="javascript:;" class="del" data-id="${item.id}">删除</a></td>
+            </tr>`)
+          })
+          //将rows数组追加到tbody里面前，清空tbody
+          $('#tb').empty().append(rows)
+        })
+      }
+      //添加图书
+      $('#btnAdd').on('click', function () {
+        //清除两端的空格
+        let bookname = $('#iptBookname').val().trim()
+        let author = $('#iptAuthor').val().trim()
+        let publisher = $('#iptPublisher').val().trim()
+        //判断输入的内容的长度是否为空
+        if (bookname.length <= 0 || author.length <= 0 || publisher.length <= 0) {
+          return alert("请填写完整的图书信息")
+        }
+        //发送ajax请求，将添加的书籍信息返回给服务器
+        $.ajax({
+          type: 'POST',
+          url: 'http://www.liulongbin.top:3006/api/addbook',
+          data: {
+            bookname,
+            author,
+            publisher
+          },
+          success(res) {
+            if (res.status !== 201) return alert('添加图书失败')
+            getBookList()
+            $('#iptBookname').val("")
+            $('#iptAuthor').val("")
+            $('#iptPublisher').val("")
+          }
+
+        })
+      })
+      //删除功能
+      // 事件代理实现原理：利用事件冒泡，让事件传递到到tb元素，tb元素会判断是否为子元素，del所触发，如果是则触发事件处理函数并将this指向del元素
+      $('#tb').on('click', '.del', function () {
+        let id = $(this).data('id')
+        // console.log('我被点击了');
+        //发送ajax请求，获取到当前点击的id值
+        $.ajax({
+          url: 'http://www.liulongbin.top:3006/api/delbook',
+          data: {
+            // 当属性名和属性值一样时可简写
+            // 注：属性名为id，属性值对应的变量也是id时可简写
+            id
+          },
+          success: res => {
+            getBookList()
+          }
+        })
+      })
+    })
+  </script>
+
+</body>
+
+</html>
