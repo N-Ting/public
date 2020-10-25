@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // const sum = (num1, num2) => {return num1 + num2}
+    // const result = sum(10, 20)
+    // console.log(result)
+
+    //如果形参只有一个，则小括号可以省略
+    // const fn = v => console.log(v);
+    // fn(20)
+
+    //箭头函数this指向
+    let o = {
+      name: '刘憨憨',
+      sayHi: function () {
+        //当前函数的this指向调用者
+        console.log('大家好，我是' + this.name)
+        setTimeout(() => {
+          //箭头函数的this指向当前箭头函数所在位置的this
+          console.log('大家好，我是' + this.name)
+        }, 1000)
+      }
+    }
+    // o.sayHi()
+    let p = { name: '刘皓东' }
+    o.sayHi.call(p)
+  </script>
+</body>
+
+</html>
