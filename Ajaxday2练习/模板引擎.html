@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./lib/template-web.js"></script>
+  <script src="./lib/jquery.js"></script>
+  <style>
+    li {
+      list-style: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+
+  </div>
+  <!-- 定义模板 -->
+  <script type="text/html" id="testTemp">
+    <ul>
+      <li>姓名:{{name}}</li>
+      <li>年龄:{{age}}</li>
+    <li>
+      <ol>
+        {{each hobby}}
+        <li>索引号：{{$index}}  ============ 兴趣：{{$value}}</li>
+        {{/each}}
+      </ol>
+    </li>
+    <li>{{reTime | formatData}}</li>
+    </ul>
+  </script>
+  <script>
+    // 定义数据
+    let data = {
+      name: 'lhh',
+      age: 18,
+      hobby: ['吃饭', '睡觉', '打豆豆'],
+      reTime: new Date()
+    }
+    template.defaults.imports.formatData = function (data) {
+      // console.log(data);
+      let year = data.getFullYear()
+      let month = (data.getMonth() + 1).toString().padStart(2, 0)
+      let day = data.getDate().toString().padStart(2, 0)
+      let h = data.getHours().toString().padStart(2, 0)
+      let m = data.getMinutes().toString().padStart(2, 0)
+      let s = data.getSeconds().toString().padStart(2, 0)
+      return `${year}-${month}-${day}   ${h}:${m}:${s}`
+    }
+    //参数1：模板的id
+    //参数2：数据对象
+    // console.log(template("testTemp", data));
+    // 调用template()函数，并将数据渲染到页面上
+    $('#container').html(template("testTemp", data))
+  </script>
+</body>
+
+</html>
