@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 基本语法
+    // let str = '你是不是傻'
+    // let result = /傻/
+    // console.log(result.exec(str));
+
+    // 小括号分组
+    // let str = '<div>我是{{name}}</div>'
+    // let result = /{{([a-zA-Z]+)}}/
+    // console.log(result.exec(str));
+    //["{{name}}", "name", index: 7, input: "<div>我是{{name}}</div>", groups: undefined]
+
+    // let str = '<div>我是{{name}}</div>'
+    // let result = /{{([a-zA-Z]+)}}/
+    // let patternResult = result.exec(str)
+    // // 将patternResult里索引为0的字符串替换为patternResult索引为1的字符串
+    // //将{{name}}替换为name
+    // str = str.replace(patternResult[0], patternResult[1])
+    // console.log(str);//输出结果：我是name
+    let data = { name: '张三', age: 18 }
+    let str = '<div>我是{{name}}我的年龄是{{ age }}</div>'
+    let result = /{{\s*([a-zA-Z]+)\s*}}/
+    // 定义一个patternResult变量，等于null
+    let patternResult = null
+    // 将result.exc(str)的值赋值给patternResult，等于true的时候进入循环体
+    while (patternResult = result.exec(str)) {
+      str = str.replace(patternResult[0], data[patternResult[1]])
+    }
+    console.log(str);
+  </script>
+</body>
+
+</html>
