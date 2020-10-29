@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../03.素材/lib/jquery.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #angel {
+      z-index: 99999;
+      /* cursor: none; */
+      position: absolute;
+      transform: translate(-30px, -30px);
+      /* display: none; */
+    }
+
+    button {
+      width: 165px;
+      height: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="../03.素材/angel.gif" alt="" id='angel'>
+  <button>呜呜小天使你真好</button>
+  <button>呜呜小天使你真好</button>
+  <button>呜呜小天使你真好</button>
+  <button>呜呜小天使你真好</button>
+  <button>呜呜小天使你真好</button>
+  <button>呜呜小天使你真好</button>
+  <button>呜呜小天使你真好</button>
+  <button>呜呜小天使你真好</button>
+  <script>
+    var timer = null
+    $(document).on('mousemove', function (e) {
+      if (timer) { return }
+      timer = setTimeout(function () {
+        $('#angel').css('left', e.pageX + 'px').css('top', e.pageY + 'px')
+        timer = null
+      }, 1000 / 120)
+    })
+    $('button').on('mousemove', function () {
+      console.log('谢谢可乐');
+
+    })
+  </script>
+</body>
+
+</html>

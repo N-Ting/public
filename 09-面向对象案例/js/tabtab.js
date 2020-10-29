@@ -1,10 +1,10 @@
-var that
+// var that
 // 创建tab类
 class Tab {
   //构造函数,传入参数
   constructor(id) {
     //让that等于实例化对象
-    that = this
+    // that = this
     //获取到实例化对象
     this.main = document.querySelector(id)
     // 获取到tabadd
@@ -33,23 +33,24 @@ class Tab {
     //调用更新li和section函数
     this.updata()
     //给tabadd绑定点击事件
-    this.tabadd.onclick = this.addTab
+    this.tabadd.onclick = this.addTab.bind(this.tabadd, this)
     //遍历所有的li
     for (var i = 0; i < this.lis.length; i++) {
       //因为点击li要拿到当前li的下标,所以让当前的li的下标等于i
       this.lis[i].index = i
       //给所有的li绑定点击事件并且调用切换函数
-      this.lis[i].onclick = this.toggleTab
+      this.lis[i].onclick = this.toggleTab.bind(this.lis[i], this)
       // 给remove绑定点击事件并且调用删除函数
-      this.remove[i].onclick = this.removeTab
+      this.remove[i].onclick = this.removeTab.bind(this.remove[i], this)
       // 给所有的span绑定双击事件
       this.span[i].ondblclick = this.editTab
+      this.sections[i].ondblclick = this.editTab
 
 
     }
   }
   // 切换功能
-  toggleTab () {
+  toggleTab (that) {
     //调用清除样式的函数
     that.clearClass()
     // console.log(this.index);
@@ -62,13 +63,13 @@ class Tab {
   clearClass () {
     //因为点击了当前的li要让其他li和sections移除liactive和conactive这两个类 所以要做排它思想
     //因为这里的this指向的是调用该函数的对象，所以要用that
-    for (var i = 0; i < that.lis.length; i++) {
-      that.lis[i].className = ''
-      that.sections[i].className = ''
+    for (var i = 0; i < this.lis.length; i++) {
+      this.lis[i].className = ''
+      this.sections[i].className = ''
     }
   }
   // 添加功能
-  addTab () {
+  addTab (that) {
     that.clearClass()
     // 生成随机数
     var random = Math.random()
@@ -84,7 +85,7 @@ class Tab {
     that.init()
   }
   //删除功能
-  removeTab (e) {
+  removeTab (that, e) {
     // console.log(11);
     // 阻止冒泡事件，防止触发li
     e.stopPropagation()
